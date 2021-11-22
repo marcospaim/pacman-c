@@ -21,7 +21,7 @@ SDL_Rect spriteRect;
 
 SDL_Texture* loadTexture(char *str);
 
-void drawSprite(SDL_Texture* tex, int num, int x, int y);
+void drawSprite(SDL_Texture* tex, int num, float x, float y);
 
 // clean up resources before exiting
 void quit_program();

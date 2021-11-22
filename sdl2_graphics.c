@@ -74,7 +74,7 @@ SDL_Texture* loadTexture(char *str)
     }
     return tex;
 }
-void drawSprite(SDL_Texture* tex, int num, int x, int y)
+void drawSprite(SDL_Texture* tex, int num, float x, float y)
 {
     int texturewidth, textureheight;
     SDL_QueryTexture(tex, NULL, NULL, &texturewidth, &textureheight);
@@ -102,7 +102,7 @@ void drawSprite(SDL_Texture* tex, int num, int x, int y)
             break;
         //Pacman
         case 5:
-            winRect.x = x*winRect.w ;
+            winRect.x = x*winRect.w - winRect.w/2;
             winRect.y = y*winRect.h - winRect.h/2;
             winRect.w *= 2;
             winRect.h *= 2;

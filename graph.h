@@ -2,7 +2,7 @@
 #define GRAPH_H_INCLUDED
 
 
-#define NUMVER 321
+#define NUMVER 320
 
 typedef struct arGrafo{
    int chaveDest; // Chave do nodo destino
@@ -22,5 +22,21 @@ typedef struct{
 } GrafoLA;
 
 GrafoLA *criaGrafoLA(int numVertices);
-void inicialize_graph (GrafoLA *graph);
+
+void inicialize_graph (GrafoLA *grafo);
+
+// Funcao que insere uma aresta em um grafo
+void insereArestaGrafoLA(GrafoLA *grafo, int chave1, int chave2);
+
+void imprimearestas (GrafoLA *grafo);
+
+void impreimegrafo (GrafoLA *grafo);
+
+//funcao que verifica se ha uma aresta entre chave1 e chave2
+int buscaArestaGrafoLA(GrafoLA *grafo, int chave1, int chave2);
+
+//funcao que busca nodo e retorna seu indice
+int buscaNodoGrafoLA(GrafoLA *grafo, int x, int y);
+
+
 #endif // GRAPH_H_INCLUDED

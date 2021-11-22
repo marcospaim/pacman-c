@@ -1,5 +1,5 @@
 # depslib dependency file v1.0
-1636754651 source:c:\users\marcos\documents\github\pacman-c\main.c
+1637619551 source:c:\users\marcos\documents\github\pacman-c\main.c
 	<SDL.h>
 	<stdio.h>
 	<stdbool.h>
@@ -386,9 +386,9 @@
 	"begin_code.h"
 	"close_code.h"
 
-1636747335 c:\users\marcos\documents\github\pacman-c\graph.h
+1637617458 c:\users\marcos\documents\github\pacman-c\graph.h
 
-1636753558 source:c:\users\marcos\documents\github\pacman-c\graph.c
+1637617338 source:c:\users\marcos\documents\github\pacman-c\graph.c
 	"graph.h"
 	<stdio.h>
 	<stdlib.h>
@@ -406,7 +406,7 @@
 	"graph.h"
 	"graphics.h"
 
-1636754158 source:c:\users\marcos\documents\github\pacman-c\sdl2_graphics.c
+1636758413 source:c:\users\marcos\documents\github\pacman-c\sdl2_graphics.c
 	<stdio.h>
 	<SDL.h>
 	<stdio.h>
@@ -416,7 +416,7 @@
 	"graph.h"
 	"sdl2_graphics.h"
 
-1636753948 c:\users\marcos\documents\github\pacman-c\sdl2_graphics.h
+1637619914 c:\users\marcos\documents\github\pacman-c\sdl2_graphics.h
 	<SDL.h>
 	<SDL_timer.h>
 	<SDL_image.h>
