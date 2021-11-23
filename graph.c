@@ -79,6 +79,7 @@ void insereArestaGrafoLA(GrafoLA *grafo, int chave1, int chave2){
     }
 }
 
+//Inicializa grafo do pacman
 void inicialize_graph (GrafoLA *grafo)
 {
     int count = 0;
@@ -86,13 +87,14 @@ void inicialize_graph (GrafoLA *grafo)
     {
         for (int j=0;j<28;j++)
         {
-            if (initial_map[i][j] <= 2)
+            if (initial_map[i][j] <= 2 )
             {
                 insereNodoGrafoLA(grafo, count, j, i, initial_map[i][j]);
                 count++;
             }
         }
     }
+    printf("count1:%d ", count);
     //insere arestas
     for (int i = 0; i<36; i++)
     {
@@ -131,6 +133,66 @@ void inicialize_graph (GrafoLA *grafo)
                     if (initial_map[i][j-1] <= 2)
                         insereArestaGrafoLA(grafo, buscaNodoGrafoLA(grafo, j, i), buscaNodoGrafoLA(grafo, j-1, i));
                     if (initial_map[i][j+1] <= 2)
+                        insereArestaGrafoLA(grafo, buscaNodoGrafoLA(grafo, j, i), buscaNodoGrafoLA(grafo, j+1, i));
+                }
+            }
+        }
+    }
+}
+//inicializa grafo dos fantasmas
+void inicialize_graphGhosts (GrafoLA *grafo)
+{
+    int count = 0;
+    for (int i = 0; i<36; i++)
+    {
+        for (int j=0;j<28;j++)
+        {
+            if (initial_map[i][j] <= 2 || initial_map[i][j] == 5)
+            {
+                insereNodoGrafoLA(grafo, count, j, i, initial_map[i][j]);
+                count++;
+            }
+        }
+    }
+    printf("count:%d ", count);
+    //insere arestas
+    for (int i = 0; i<36; i++)
+    {
+        for (int j=0;j<28;j++)
+        {
+            if (initial_map[i][j] <= 2 || initial_map[i-1][j] == 5)
+            {
+                if (j == 0)
+                {
+                    if (initial_map[i-1][j] <= 2 || initial_map[i-1][j] == 5)
+                        insereArestaGrafoLA(grafo, buscaNodoGrafoLA(grafo, j, i), buscaNodoGrafoLA(grafo, j, i-1));
+                    if (initial_map[i+1][j] <= 2 || initial_map[i+1][j] == 5)
+                        insereArestaGrafoLA(grafo, buscaNodoGrafoLA(grafo, j, i), buscaNodoGrafoLA(grafo, j, i+1));
+                    if (initial_map[i][27] <= 2 || initial_map[i][27] == 5)
+                        insereArestaGrafoLA(grafo, buscaNodoGrafoLA(grafo, j, i), buscaNodoGrafoLA(grafo, 27, i));
+                    if (initial_map[i][j+1] <= 2 || initial_map[i][j+1] == 5)
+                        insereArestaGrafoLA(grafo, buscaNodoGrafoLA(grafo, j, i), buscaNodoGrafoLA(grafo, j+1, i));
+                }
+                else if (j == 27)
+                {
+                    if (initial_map[i-1][j] <= 2 || initial_map[i-1][j] == 5)
+                        insereArestaGrafoLA(grafo, buscaNodoGrafoLA(grafo, j, i), buscaNodoGrafoLA(grafo, j, i-1));
+                    if (initial_map[i+1][j] <= 2 || initial_map[i+1][j] == 5)
+                        insereArestaGrafoLA(grafo, buscaNodoGrafoLA(grafo, j, i), buscaNodoGrafoLA(grafo, j, i+1));
+                    if (initial_map[i][j-1] <= 2 || initial_map[i][j-1] == 5)
+                        insereArestaGrafoLA(grafo, buscaNodoGrafoLA(grafo, j, i), buscaNodoGrafoLA(grafo, j-1, i));
+                    if (initial_map[i][0] <= 2 || initial_map[i][0] == 5)
+                        insereArestaGrafoLA(grafo, buscaNodoGrafoLA(grafo, j, i), buscaNodoGrafoLA(grafo, 0, i));
+                }
+                else
+                {
+                    if (initial_map[i-1][j] <= 2 || initial_map[i-1][j] == 5)
+                        insereArestaGrafoLA(grafo, buscaNodoGrafoLA(grafo, j, i), buscaNodoGrafoLA(grafo, j, i-1));
+                    if (initial_map[i+1][j] <= 2 || initial_map[i+1][j] == 5)
+                        insereArestaGrafoLA(grafo, buscaNodoGrafoLA(grafo, j, i), buscaNodoGrafoLA(grafo, j, i+1));
+                    if (initial_map[i][j-1] <= 2 || initial_map[i][j-1] == 5)
+                        insereArestaGrafoLA(grafo, buscaNodoGrafoLA(grafo, j, i), buscaNodoGrafoLA(grafo, j-1, i));
+                    if (initial_map[i][j+1] <= 2 || initial_map[i][j+1] == 5)
                         insereArestaGrafoLA(grafo, buscaNodoGrafoLA(grafo, j, i), buscaNodoGrafoLA(grafo, j+1, i));
                 }
             }

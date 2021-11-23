@@ -23,7 +23,11 @@ typedef struct{
 
 GrafoLA *criaGrafoLA(int numVertices);
 
+//Inicializa grafo do pacman
 void inicialize_graph (GrafoLA *grafo);
+
+//inicializa grafo dos fantasmas
+void inicialize_graphGhosts (GrafoLA *grafo);
 
 // Funcao que insere uma aresta em um grafo
 void insereArestaGrafoLA(GrafoLA *grafo, int chave1, int chave2);

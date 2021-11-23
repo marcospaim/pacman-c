@@ -1,12 +1,14 @@
 # depslib dependency file v1.0
-1637619551 source:c:\users\marcos\documents\github\pacman-c\main.c
+1637647400 source:c:\users\marcos\documents\github\pacman-c\main.c
 	<SDL.h>
 	<stdio.h>
+	<time.h>
 	<stdbool.h>
 	<SDL_timer.h>
 	<SDL_image.h>
 	"graph.h"
 	"sdl2_graphics.h"
+	"game.h"
 
 1628610877 c:\mingw_dev_lib\sdl2\include\sdl2\sdl.h
 	"SDL_main.h"
@@ -386,9 +388,9 @@
 	"begin_code.h"
 	"close_code.h"
 
-1637617458 c:\users\marcos\documents\github\pacman-c\graph.h
+1637625585 c:\users\marcos\documents\github\pacman-c\graph.h
 
-1637617338 source:c:\users\marcos\documents\github\pacman-c\graph.c
+1637647242 source:c:\users\marcos\documents\github\pacman-c\graph.c
 	"graph.h"
 	<stdio.h>
 	<stdlib.h>
@@ -406,7 +408,7 @@
 	"graph.h"
 	"graphics.h"
 
-1636758413 source:c:\users\marcos\documents\github\pacman-c\sdl2_graphics.c
+1637645186 source:c:\users\marcos\documents\github\pacman-c\sdl2_graphics.c
 	<stdio.h>
 	<SDL.h>
 	<stdio.h>
@@ -420,4 +422,14 @@
 	<SDL.h>
 	<SDL_timer.h>
 	<SDL_image.h>
+
+1637647973 source:c:\users\marcos\documents\github\pacman-c\game.c
+	<stdio.h>
+	"game.h"
+	"graph.h"
+	<time.h>
+	<stdlib.h>
+
+1637648252 c:\users\marcos\documents\github\pacman-c\game.h
+	"graph.h"
 

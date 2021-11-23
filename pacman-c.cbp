@@ -38,6 +38,10 @@
 			<Add directory="C:/mingw_dev_lib/sdl2/lib" />
 			<Add directory="C:/mingw_dev_lib/sdl2_image/lib" />
 		</Linker>
+		<Unit filename="game.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="game.h" />
 		<Unit filename="graph.c">
 			<Option compilerVar="CC" />
 		</Unit>
