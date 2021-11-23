@@ -1,9 +1,10 @@
 #include <stdio.h>
+#include <stdbool.h>
 #include "game.h"
 #include "graph.h"
 #include <time.h>
 #include <stdlib.h>
-
+#include "pilha_enc_plus.h"
 //conta moedas em grafo
 int contaMoedas(GrafoLA *grafo)
 {
@@ -211,4 +212,147 @@ void movimento_fantasma(GrafoLA *grafo, Ghost *fantasma)
                  || (fantasma->y_vel == -SPEED
                  && buscaArestaGrafoLA(grafo, fantasma->graph_pos, buscaNodoGrafoLA(grafo, (int)fantasma->x_pos, (int)fantasma->y_pos-1))))
                     fantasma->y_pos += fantasma->y_vel/FPS;
+}
+
+void retorno_fantasma(GrafoLA *grafo, Ghost *fantasma)
+{
+    if (!fantasma->returning)
+    {
+        BFSGrafoLA(grafo, fantasma->graph_pos);
+        ArestaGrafo *arestaAux;
+        int vertice = buscaNodoGrafoLA(grafo, (int)fantasma->x_pos_orig, (int)fantasma->y_pos_orig); //vertice destino
+        int d = grafo->vertices[vertice].distInicio; //distancia do nodo destino ao inicial
+        fantasma->pilha = criaPilha();
+        while (d != 0)
+        {
+            d--;
+            for (arestaAux = grafo->vertices[vertice].lista; arestaAux != NULL; arestaAux = arestaAux->prox)
+            {
+                if (grafo->vertices[arestaAux->chaveDest].distInicio == d)
+                {
+                    vertice = arestaAux->chaveDest;
+                    empilhaPilha(fantasma->pilha, vertice, grafo->vertices[arestaAux->chaveDest].x, grafo->vertices[arestaAux->chaveDest].y);
+                    break;
+                }
+
+            }
+        }
+        fantasma->returning = 1;
+    }
+
+    //Controla a velocidade e desempilha
+    if (fantasma->pilha->topo != NULL)
+    {
+        if ((int)fantasma->x_pos < fantasma->pilha->topo->x)
+        {
+            fantasma->x_vel = SPEED;
+            fantasma->y_vel = 0;
+        }
+        else if ((int)fantasma->x_pos > fantasma->pilha->topo->x)
+        {
+            fantasma->x_vel = -SPEED;
+            fantasma->y_vel = 0;
+        }
+        else if ((int)fantasma->y_pos > fantasma->pilha->topo->y)
+        {
+            fantasma->x_vel = 0;
+            fantasma->y_vel = -SPEED;
+        }
+        else if ((int)fantasma->y_pos < fantasma->pilha->topo->y)
+        {
+            fantasma->x_vel = 0;
+            fantasma->y_vel = SPEED;
+        }
+        if (fantasma->graph_pos == fantasma->pilha->topo->graph_pos)
+        {
+            if (fantasma->pilha->topo != NULL)
+                desempilhaPilha(fantasma->pilha);
+        }
+    }
+    /*if ((int)fantasma->x_pos == fantasma->x_pos_orig && (int)fantasma->y_pos == fantasma->y_pos_orig)
+    {
+        fantasma->returning = 0;
+        destroiPilha(fantasma->pilha);
+    }*/
+    if (fantasma->graph_pos == buscaNodoGrafoLA(grafo, (int)fantasma->x_pos_orig, (int)fantasma->y_pos_orig))
+    {
+        fantasma->returning = 0;
+        destroiPilha(fantasma->pilha);
+    }
+    //Movimenta o fantasma
+    if ((int)fantasma->x_pos == 0)
+        {
+            if (fantasma->x_vel == SPEED
+                 && buscaArestaGrafoLA(grafo, fantasma->graph_pos, buscaNodoGrafoLA(grafo, (int)fantasma->x_pos+1, (int)fantasma->y_pos)))
+                 fantasma->x_pos += fantasma->x_vel/FPS;
+
+            if (fantasma->x_vel == -SPEED
+                 && buscaArestaGrafoLA(grafo, fantasma->graph_pos, buscaNodoGrafoLA(grafo, 27, (int)fantasma->y_pos)))
+                    fantasma->x_pos = 27;
+        }
+        else if ((int)fantasma->x_pos == 27)
+        {
+            if (fantasma->x_vel == SPEED
+                 && buscaArestaGrafoLA(grafo, fantasma->graph_pos, buscaNodoGrafoLA(grafo, 0, (int)fantasma->y_pos)))
+                 fantasma->x_pos = 0;
+
+            if (fantasma->x_vel == -SPEED
+                 && buscaArestaGrafoLA(grafo, fantasma->graph_pos, buscaNodoGrafoLA(grafo, 0, (int)fantasma->y_pos)))
+                    fantasma->x_pos += fantasma->x_vel/FPS;
+        }
+        else
+        {
+            if ((fantasma->x_vel == SPEED
+                 && buscaArestaGrafoLA(grafo, fantasma->graph_pos, buscaNodoGrafoLA(grafo, (int)fantasma->x_pos+1, (int)fantasma->y_pos)))
+                 || (fantasma->x_vel == -SPEED
+                 && buscaArestaGrafoLA(grafo, fantasma->graph_pos, buscaNodoGrafoLA(grafo, (int)fantasma->x_pos-1, (int)fantasma->y_pos))))
+                    fantasma->x_pos += fantasma->x_vel/FPS;
+        }
+
+        if ((fantasma->y_vel == SPEED
+                 && buscaArestaGrafoLA(grafo, fantasma->graph_pos, buscaNodoGrafoLA(grafo, (int)fantasma->x_pos, (int)fantasma->y_pos+1)))
+                 || (fantasma->y_vel == -SPEED
+                 && buscaArestaGrafoLA(grafo, fantasma->graph_pos, buscaNodoGrafoLA(grafo, (int)fantasma->x_pos, (int)fantasma->y_pos-1))))
+                    fantasma->y_pos += fantasma->y_vel/FPS;
+}
+
+void initialize_game (Game *game, Ghost *blinky, Ghost *pinky, Ghost *inky, Ghost *clyde, Pacman *pacman)
+{
+    // inicializar pacman
+    pacman->x_vel = -SPEED;
+    pacman->y_vel = 0;
+    pacman->x_pos = 13;
+    pacman->y_pos = 26;
+    pacman->lives = 3;
+    pacman->coins = 0;
+
+    blinky->x_vel = -SPEED;
+    blinky->y_vel = 0;
+    blinky->x_pos = blinky->x_pos_orig = 13;
+    blinky->y_pos = blinky->y_pos_orig = 14;
+    blinky->flag = 0;
+    blinky->returning = 0;
+
+    pinky->x_vel = -SPEED;
+    pinky->y_vel = 0;
+    pinky->x_pos = pinky->x_pos_orig = 13;
+    pinky->y_pos = pinky->y_pos_orig = 17;
+    pinky->flag = 0;
+    pinky->returning = 0;
+
+    inky->x_vel = -SPEED;
+    inky->y_vel = 0;
+    inky->x_pos = inky->x_pos_orig = 11;
+    inky->y_pos = inky->y_pos_orig = 17;
+    inky->flag = 0;
+    inky->returning = 0;
+
+    clyde->x_vel = -SPEED;
+    clyde->y_vel = 0;
+    clyde->x_pos = clyde->x_pos_orig = 15;
+    clyde->y_pos = clyde->y_pos_orig = 17;
+    clyde->flag = 0;
+    clyde->returning = 0;
+
+    game->frightened = 0;
 }

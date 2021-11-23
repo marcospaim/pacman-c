@@ -6,7 +6,7 @@
 #include <SDL_image.h>
 #include "graph.h"
 #include "sdl2_graphics.h"
-
+#include "game.h"
 //0=caminho sem nada, 1=caminho com moeda, 2 = caminho com moed grande, 3 = parede, 4 = fora do mapa, 5 = porta da casa dos fantasmas
 char initial_map[36][28] = {
     {4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4},//0
@@ -74,7 +74,37 @@ SDL_Texture* loadTexture(char *str)
     }
     return tex;
 }
-void drawSprite(SDL_Texture* tex, int num, float x, float y)
+void write(SDL_Texture* tex, char* text, int x, int y)
+{
+    winRect.w = WIN_WIDTH/28;
+    winRect.h = WIN_HEIGHT/36;
+    spriteRect.w = spriteRect.h = 8;
+    char *t;
+    int i = 0;
+    for (t = text; *t != '\0'; t++)
+    {
+        if (*t >= 'a' && *t <= 'm')
+        {
+            winRect.x = i*winRect.w + x*winRect.w;
+            winRect.y = 0 + y*winRect.h;
+            spriteRect.y = 28;
+            spriteRect.x = 201 + (*t-'a')*9;
+            // draw the image to the window
+            SDL_RenderCopy(renderer, tex, &spriteRect, &winRect);
+        }
+        else if(*t >= 'n' && *t <= 'z')
+        {
+            winRect.x = i*winRect.w + x*winRect.w;
+            winRect.y = 0 + y*winRect.h;
+            spriteRect.y = 37;
+            spriteRect.x = 201 + (*t-'n')*9;
+            // draw the image to the window
+            SDL_RenderCopy(renderer, tex, &spriteRect, &winRect);
+        }
+        i++;
+    }
+}
+void drawSprite(SDL_Texture* tex, int num, float x, float y, Ghost *fantasma, Game *game)
 {
     int texturewidth, textureheight;
     SDL_QueryTexture(tex, NULL, NULL, &texturewidth, &textureheight);
@@ -117,8 +147,16 @@ void drawSprite(SDL_Texture* tex, int num, float x, float y)
             winRect.w *= 2;
             winRect.h *= 2;
             spriteRect.w = spriteRect.h = 16;
-            spriteRect.x = 1;
-            spriteRect.y = 83;
+            if (game->frightened == true || fantasma->returning == 1)
+            {
+                spriteRect.x = 201;
+                spriteRect.y = 168;
+            }
+            else
+            {
+                spriteRect.x = 1;
+                spriteRect.y = 83;
+            }
             break;
         //Pinky
         case 7:
@@ -127,8 +165,16 @@ void drawSprite(SDL_Texture* tex, int num, float x, float y)
             winRect.w *= 2;
             winRect.h *= 2;
             spriteRect.w = spriteRect.h = 16;
-            spriteRect.x = 1+200;
-            spriteRect.y = 83;
+            if (game->frightened == true || fantasma->returning == 1)
+            {
+                spriteRect.x = 201;
+                spriteRect.y = 168;
+            }
+            else
+            {
+                spriteRect.x = 1+200;
+                spriteRect.y = 83;
+            }
             break;
         //Inky
         case 8:
@@ -137,8 +183,17 @@ void drawSprite(SDL_Texture* tex, int num, float x, float y)
             winRect.w *= 2;
             winRect.h *= 2;
             spriteRect.w = spriteRect.h = 16;
-            spriteRect.x = 1+200+200;
-            spriteRect.y = 83;
+            if (game->frightened == true || fantasma->returning == 1)
+            {
+                spriteRect.x = 201;
+                spriteRect.y = 168;
+            }
+            else
+            {
+                spriteRect.x = 1+200+200;
+                spriteRect.y = 83;
+            }
+
             break;
         //Clyde
         case 9:
@@ -147,8 +202,16 @@ void drawSprite(SDL_Texture* tex, int num, float x, float y)
             winRect.w *= 2;
             winRect.h *= 2;
             spriteRect.w = spriteRect.h = 16;
-            spriteRect.x = 1+200+200+200;
-            spriteRect.y = 83;
+            if (game->frightened == true || fantasma->returning == 1)
+            {
+                spriteRect.x = 201;
+                spriteRect.y = 168;
+            }
+            else
+            {
+                spriteRect.x = 1+200+200+200;
+                spriteRect.y = 83;
+            }
             break;
     }
     // draw the image to the window
@@ -162,7 +225,7 @@ void draw_coins(GrafoLA *grafo)
     for (int i = 0; i< grafo->numVertices; i++)
     {
         if(grafo->vertices[i].coin != 0)
-            drawSprite(tex, grafo->vertices[i].coin, grafo->vertices[i].x, grafo->vertices[i].y);
+            drawSprite(tex, grafo->vertices[i].coin, grafo->vertices[i].x, grafo->vertices[i].y, NULL, NULL);
     }
 }
 // clean up resources before exiting

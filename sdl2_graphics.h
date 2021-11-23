@@ -3,6 +3,7 @@
 #include <SDL.h>
 #include <SDL_timer.h>
 #include <SDL_image.h>
+#include "game.h"
 
 #define WIN_WIDTH 448
 #define WIN_HEIGHT 576
@@ -21,12 +22,15 @@ SDL_Rect spriteRect;
 
 SDL_Texture* loadTexture(char *str);
 
-void drawSprite(SDL_Texture* tex, int num, float x, float y);
+void drawSprite(SDL_Texture* tex, int num, float x, float y, Ghost *fantasma, Game *game);
 
 // clean up resources before exiting
 void quit_program();
 
 // Desenha as moedas no mapa de acordo com o grafo
 void draw_coins(GrafoLA *grafo);
+
+//Escreve texto no jogo
+void write(SDL_Texture* tex, char* text, int x, int y);
 
 #endif // SDL2_GRAPHICS_H_INCLUDED

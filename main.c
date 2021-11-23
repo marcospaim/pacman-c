@@ -14,6 +14,7 @@
 int main(int argc, char* argv[])
 {
     srand(time(0));
+    Game game;
     //Main loop flag
     bool quit = false;
     GrafoLA *grafo = criaGrafoLA(NUMVER);
@@ -21,44 +22,17 @@ int main(int argc, char* argv[])
     GrafoLA *grafoGhosts = criaGrafoLA(NUMVER);
     inicialize_graphGhosts (grafoGhosts);
 
-    printf("grafo: %d ", buscaArestaGrafoLA(grafo, buscaNodoGrafoLA(grafo, 0, 17), buscaNodoGrafoLA(grafo, 27, 17)));
-    printf("grafo: %d ", buscaArestaGrafoLA(grafoGhosts, buscaNodoGrafoLA(grafoGhosts, 0, 17), buscaNodoGrafoLA(grafoGhosts, 27, 17)));
     Pacman pacman;
-    // inicializar pacman
-    pacman.x_vel = -SPEED;
-    pacman.y_vel = 0;
-    pacman.x_pos = 13;
-    pacman.y_pos = 26;
-    pacman.graph_pos = buscaNodoGrafoLA(grafo, (int)pacman.x_pos, (int)pacman.y_pos);
+
     //inicializar ghosts
     Ghost blinky; //vermelho
-    blinky.x_vel = -SPEED;
-    blinky.y_vel = 0;
-    blinky.x_pos = 13;
-    blinky.y_pos = 14;
-    blinky.flag = 0;
-    blinky.graph_pos = buscaNodoGrafoLA(grafo, (int)blinky.x_pos, (int)blinky.y_pos);
+
     Ghost pinky; //Rosa
-    pinky.x_vel = -SPEED;
-    pinky.y_vel = 0;
-    pinky.x_pos = 13;
-    pinky.y_pos = 17;
-    pinky.flag = 0;
-    pinky.graph_pos = buscaNodoGrafoLA(grafo, (int)pinky.x_pos, (int)pinky.y_pos);
+
     Ghost inky; //azul
-    inky.x_vel = -SPEED;
-    inky.y_vel = 0;
-    inky.x_pos = 11;
-    inky.y_pos = 17;
-    inky.flag = 0;
-    inky.graph_pos = buscaNodoGrafoLA(grafo, (int)inky.x_pos, (int)inky.y_pos);
+
     Ghost clyde; //laranja
-    clyde.x_vel = -SPEED;
-    clyde.y_vel = 0;
-    clyde.x_pos = 15;
-    clyde.y_pos = 17;
-    clyde.flag = 0;
-    clyde.graph_pos = buscaNodoGrafoLA(grafo, (int)clyde.x_pos, (int)clyde.y_pos);
+
     //inicia winRect
     winRect.w = WIN_WIDTH/28;
     winRect.h = WIN_HEIGHT/36;
@@ -116,8 +90,9 @@ int main(int argc, char* argv[])
     }
 
     SDL_RenderPresent(renderer);
-
-
+    game.frightened = 0;
+    game.run = false;
+    game.last_game = 0;
     //Event handler
     SDL_Event e;
     static Uint32 next_time;
@@ -141,6 +116,15 @@ int main(int argc, char* argv[])
             {
                 case SDL_QUIT:
                     quit = true;
+                    break;
+                case SDL_KEYDOWN:
+                    if (game.run == false)
+                    {
+                        inicialize_graph (grafo);
+                        initialize_game (&game, &blinky, &pinky, &inky, &clyde, &pacman);
+                    }
+
+                    game.run = true;
                     break;
             }
         }
@@ -186,21 +170,94 @@ int main(int argc, char* argv[])
         SDL_RenderClear(renderer);
         // draw the image to the window
         SDL_RenderCopy(renderer, tex2, NULL, NULL); // Desenha o mapa
+        if (!game.run)
+        {
+           write(tex, "press any button to start", 0, 0);
+           if (game.last_game)
+           {
+                if (game.last_game == 1)
+                    write(tex, "you won", 10, 16);
+                else
+                    write(tex, "game over", 10, 16);
+           }
+        }
+        if (game.run)
+        {
+            draw_coins(grafo);
+            //Movimento do Pacman:
+            movimento_pacman(grafo, &pacman);
+            //Movimento fantasmas:
+            if (blinky.returning == 0)
+                movimento_fantasma(grafoGhosts, &blinky);
+            else
+                retorno_fantasma(grafoGhosts, &blinky);
+            if (pinky.returning == 0)
+                movimento_fantasma(grafoGhosts, &pinky);
+            else
+                retorno_fantasma(grafoGhosts, &pinky);
+            if (inky.returning == 0)
+                movimento_fantasma(grafoGhosts, &inky);
+            else
+                retorno_fantasma(grafoGhosts, &inky);
+            if (clyde.returning == 0)
+                movimento_fantasma(grafoGhosts, &clyde);
+            else
+                retorno_fantasma(grafoGhosts, &clyde);
+            // Checa se pacman comeu moeda grande
+            if (grafo->vertices[pacman.graph_pos].coin == 2)
+            {
+                game.frightened = true;
+                game.frightened_time = SDL_GetTicks();
+            }
+            if ((SDL_GetTicks() - game.frightened_time > 6000))
+                game.frightened = false;
+            // Checa se pacman comeu alguma moeda
+            if (grafo->vertices[pacman.graph_pos].coin == 1 || grafo->vertices[pacman.graph_pos].coin == 2)
+            {
+                grafo->vertices[pacman.graph_pos].coin = 0;
+                pacman.coins++;
+            }
+            if (game.frightened)
+            {
+                if (pacman.graph_pos == blinky.graph_pos && blinky.returning == 0)
+                    retorno_fantasma(grafoGhosts, &blinky);
+                if (pacman.graph_pos == pinky.graph_pos && pinky.returning == 0)
+                    retorno_fantasma(grafoGhosts, &pinky);
+                if (pacman.graph_pos == inky.graph_pos && inky.returning == 0)
+                    retorno_fantasma(grafoGhosts, &inky);
+                if (pacman.graph_pos == clyde.graph_pos && clyde.returning == 0)
+                    retorno_fantasma(grafoGhosts, &clyde);
+            }
+            else //Checa se o pacman se chocou com algum fantasma
+            {
+                if (pacman.graph_pos == blinky.graph_pos)
+                    pacman.lives--;
+                if (pacman.graph_pos == pinky.graph_pos)
+                    pacman.lives--;
+                if (pacman.graph_pos == inky.graph_pos)
+                    pacman.lives--;
+                if (pacman.graph_pos == clyde.graph_pos)
+                    pacman.lives--;
+            }
+            if (pacman.lives < 1)
+            {
+                game.last_game = 2;
+                game.run = false;
+            }
+            else if (pacman.coins == COINS)
+            {
+                game.last_game = 1;
+                game.run = false;
+            }
+            drawSprite(tex, 5, (int) pacman.x_pos, (int) pacman.y_pos, NULL, &game);
+            drawSprite(tex, 6, (int) blinky.x_pos, (int) blinky.y_pos, &blinky, &game);
+            drawSprite(tex, 7, (int) pinky.x_pos, (int) pinky.y_pos, &pinky, &game);
+            drawSprite(tex, 8, (int) inky.x_pos, (int) inky.y_pos, &inky, &game);
+            drawSprite(tex, 9, (int) clyde.x_pos, (int) clyde.y_pos, &clyde, &game);
 
-        draw_coins(grafo);
-        //Movimento do Pacman:
-        movimento_pacman(grafo, &pacman);
-        movimento_fantasma(grafoGhosts, &blinky);
-        movimento_fantasma(grafoGhosts, &pinky);
-        movimento_fantasma(grafoGhosts, &inky);
-        movimento_fantasma(grafoGhosts, &clyde);
-        if (grafo->vertices[pacman.graph_pos].coin == 1 || grafo->vertices[pacman.graph_pos].coin == 2)
-            grafo->vertices[pacman.graph_pos].coin = 0;
-        drawSprite(tex, 5, (int) pacman.x_pos, (int) pacman.y_pos);
-        drawSprite(tex, 6, (int) blinky.x_pos, (int) blinky.y_pos);
-        drawSprite(tex, 7, (int) pinky.x_pos, (int) pinky.y_pos);
-        drawSprite(tex, 8, (int) inky.x_pos, (int) inky.y_pos);
-        drawSprite(tex, 9, (int) clyde.x_pos, (int) clyde.y_pos);
+        }
+
+
         SDL_RenderPresent(renderer);
     }
     // clean up resources before exiting

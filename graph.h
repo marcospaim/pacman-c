@@ -3,10 +3,21 @@
 
 
 #define NUMVER 320
+typedef enum{
+  EXPLORATORIA = 0,
+  OUTRA /* Nao Exploratoria */
+} tipoAresta;
+
+typedef enum{
+  BRANCO = 0, /* Nao Explorado */
+  CINZA, /* Sob Exploracao */
+  PRETO /* Explorado */
+} corVertice;
 
 typedef struct arGrafo{
    int chaveDest; // Chave do nodo destino
    struct arGrafo *prox; // Proxima aresta
+   tipoAresta tipo; // Util para DFS e BFS
 } ArestaGrafo;
 
 typedef struct noGrafo{
@@ -14,11 +25,17 @@ typedef struct noGrafo{
    int y;
    int coin;
    ArestaGrafo *lista; // Lista de arestas
+   corVertice cor; // Util para DFS e BFS
+   int tEntrada; // Util para DFS e BFS
+   int tSaida; // Util para DFS e BFS
+   int pai; // Util para DFS e BFS
+   int distInicio; // Util para BFS
 } NoGrafo;
 
 typedef struct{
    int numVertices; // Numero de vertices
    NoGrafo *vertices; // Vetor de vertices
+   int timestamp; // Util para DFS e BFS
 } GrafoLA;
 
 GrafoLA *criaGrafoLA(int numVertices);
@@ -42,5 +59,10 @@ int buscaArestaGrafoLA(GrafoLA *grafo, int chave1, int chave2);
 //funcao que busca nodo e retorna seu indice
 int buscaNodoGrafoLA(GrafoLA *grafo, int x, int y);
 
+// Funcao auxiliar para Algs. de Caminhamento
+void inicializaCaminhamentoGrafoLA(GrafoLA *grafo);
+
+// Alg. para Caminhamento em Amplitude
+void BFSGrafoLA(GrafoLA *grafo, int chaveInicial);
 
 #endif // GRAPH_H_INCLUDED

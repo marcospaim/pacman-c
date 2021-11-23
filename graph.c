@@ -2,6 +2,8 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include "sdl2_graphics.h"
+#include "fila_enc.h"
+
 void impreimegrafo (GrafoLA *grafo)
 {
 
@@ -94,7 +96,6 @@ void inicialize_graph (GrafoLA *grafo)
             }
         }
     }
-    printf("count1:%d ", count);
     //insere arestas
     for (int i = 0; i<36; i++)
     {
@@ -154,7 +155,7 @@ void inicialize_graphGhosts (GrafoLA *grafo)
             }
         }
     }
-    printf("count:%d ", count);
+
     //insere arestas
     for (int i = 0; i<36; i++)
     {
@@ -198,4 +199,49 @@ void inicialize_graphGhosts (GrafoLA *grafo)
             }
         }
     }
+}
+
+// Funcao auxiliar para Algs. de Caminhamento
+void inicializaCaminhamentoGrafoLA(GrafoLA *grafo){
+   int chave;
+   grafo->timestamp = 0;
+   for (chave = 0; chave < grafo->numVertices; chave++){
+      grafo->vertices[chave].cor = BRANCO;
+      grafo->vertices[chave].tEntrada = -1;
+      grafo->vertices[chave].tSaida = -1;
+      grafo->vertices[chave].pai = -1;
+   }
+   for (chave = 0; chave < grafo->numVertices; chave++)
+      for (ArestaGrafo *arestaAux = grafo->vertices[chave].lista;
+           arestaAux != NULL; arestaAux = arestaAux->prox){
+           arestaAux->tipo = OUTRA;
+      }
+}
+
+// Alg. para Caminhamento em Amplitude
+void BFSGrafoLA(GrafoLA *grafo, int chaveInicial){
+   inicializaCaminhamentoGrafoLA(grafo);
+   FilaEnc *fila = criaFila();
+   enfileiraFila(fila, chaveInicial);
+   grafo->vertices[chaveInicial].tEntrada = grafo->timestamp++;
+   grafo->vertices[chaveInicial].cor = CINZA;
+   grafo->vertices[chaveInicial].distInicio = 0;
+   while(!vaziaFila(fila)){
+      int chave1 = desenfileiraFila(fila);
+      for(ArestaGrafo *arestaAux = grafo->vertices[chave1].lista;
+          arestaAux != NULL; arestaAux = arestaAux->prox){
+          int chave2 = arestaAux->chaveDest;
+          if(grafo->vertices[chave2].cor == BRANCO){
+             grafo->vertices[chave2].pai = chave1;
+             grafo->vertices[chave2].distInicio = grafo->vertices[chave1].distInicio + 1;
+             grafo->vertices[chave2].tEntrada = grafo->timestamp++;
+             grafo->vertices[chave2].cor = CINZA;
+             arestaAux->tipo = EXPLORATORIA;
+             enfileiraFila(fila, chave2);
+          }
+      }
+      grafo->vertices[chave1].cor = PRETO;
+      grafo->vertices[chave1].tSaida = grafo->timestamp++;
+   }
+   destroiFila(fila);
 }
