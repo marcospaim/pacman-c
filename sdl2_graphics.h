@@ -20,17 +20,19 @@ extern SDL_Texture* tex;
 SDL_Rect winRect;
 SDL_Rect spriteRect;
 
+//load texture from image
 SDL_Texture* loadTexture(char *str);
 
+//draw sprites
 void drawSprite(SDL_Texture* tex, int num, float x, float y, Ghost *fantasma, Game *game);
 
 // clean up resources before exiting
 void quit_program();
 
-// Desenha as moedas no mapa de acordo com o grafo
-void draw_coins(GrafoLA *grafo);
+// Draw coins on map
+void draw_coins(GrafoLA *graph);
 
-//Escreve texto no jogo
+//Write text on game window
 void write(SDL_Texture* tex, char* text, int x, int y);
 
 #endif // SDL2_GRAPHICS_H_INCLUDED

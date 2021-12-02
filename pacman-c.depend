@@ -1,5 +1,5 @@
 # depslib dependency file v1.0
-1637703530 source:c:\users\marcos\documents\github\pacman-c\main.c
+1638484866 source:c:\users\marcos\documents\github\pacman-c\main.c
 	<SDL.h>
 	<stdio.h>
 	<time.h>
@@ -388,9 +388,9 @@
 	"begin_code.h"
 	"close_code.h"
 
-1637690516 c:\users\marcos\documents\github\pacman-c\graph.h
+1638484866 c:\users\marcos\documents\github\pacman-c\graph.h
 
-1637702596 source:c:\users\marcos\documents\github\pacman-c\graph.c
+1638484866 source:c:\users\marcos\documents\github\pacman-c\graph.c
 	"graph.h"
 	<stdio.h>
 	<stdlib.h>
@@ -409,7 +409,7 @@
 	"graph.h"
 	"graphics.h"
 
-1637702878 source:c:\users\marcos\documents\github\pacman-c\sdl2_graphics.c
+1638482808 source:c:\users\marcos\documents\github\pacman-c\sdl2_graphics.c
 	<stdio.h>
 	<SDL.h>
 	<stdio.h>
@@ -420,13 +420,13 @@
 	"sdl2_graphics.h"
 	"game.h"
 
-1637701771 c:\users\marcos\documents\github\pacman-c\sdl2_graphics.h
+1638482800 c:\users\marcos\documents\github\pacman-c\sdl2_graphics.h
 	<SDL.h>
 	<SDL_timer.h>
 	<SDL_image.h>
 	"game.h"
 
-1637704988 source:c:\users\marcos\documents\github\pacman-c\game.c
+1637716990 source:c:\users\marcos\documents\github\pacman-c\game.c
 	<stdio.h>
 	<stdbool.h>
 	"game.h"
@@ -435,7 +435,7 @@
 	<stdlib.h>
 	"pilha_enc_plus.h"
 
-1637703165 c:\users\marcos\documents\github\pacman-c\game.h
+1638484866 c:\users\marcos\documents\github\pacman-c\game.h
 	"graph.h"
 	"pilha_enc_plus.h"
 	<stdbool.h>

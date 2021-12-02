@@ -42,16 +42,22 @@ typedef struct
     Uint32 frightened_time;
 }Game;
 
-//conta moedas em grafo
+//count coins in graph
 int contaMoedas(GrafoLA *grafo);
 
+//control pacman's movement
 void movimento_pacman(GrafoLA *grafo, Pacman *pacman);
 
+//control ghosts' movement
 void movimento_fantasma(GrafoLA *grafo, Ghost *fantasma);
 
+//move ghost to the original position taking the shortest path
 void retorno_fantasma(GrafoLA *grafo, Ghost *fantasma);
 
+//return random number
 int random_number(int upper);
 
+//inicialize game
 void initialize_game (Game *game, Ghost *blinky, Ghost *pinky, Ghost *inky, Ghost *clyde, Pacman *pacman);
+
 #endif // GAME_H_INCLUDED

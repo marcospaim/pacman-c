@@ -4,6 +4,7 @@
 #include "sdl2_graphics.h"
 #include "fila_enc.h"
 
+//print graph
 void impreimegrafo (GrafoLA *grafo)
 {
 
@@ -12,6 +13,7 @@ void impreimegrafo (GrafoLA *grafo)
         printf("%d: x: %d, y: %d\n",i, grafo->vertices[i].x, grafo->vertices[i].y);
     }
 }
+//print graph's edges
 void imprimearestas (GrafoLA *grafo)
 {
     for (int i = 0; i< grafo->numVertices; i++)
@@ -21,7 +23,7 @@ void imprimearestas (GrafoLA *grafo)
         printf("\n{%d, %d}", i, arestaAux->chaveDest);
     }
 }
-// Funcao que cria um grafo
+// create graph
 GrafoLA *criaGrafoLA(int numVertices){
    int chave;
    GrafoLA * grafo = (GrafoLA*)malloc(sizeof(GrafoLA));
@@ -32,13 +34,13 @@ GrafoLA *criaGrafoLA(int numVertices){
    return grafo;
 }
 
-// Funcao que insere um nodo
+// Insert node
 void insereNodoGrafoLA(GrafoLA *grafo, int i, int x, int y, int coin){
    grafo->vertices[i].x = x;
    grafo->vertices[i].y = y;
    grafo->vertices[i].coin = coin;
 }
-//funcao que busca nodo e retorna seu indice
+//Search node and return index
 int buscaNodoGrafoLA(GrafoLA *grafo, int x, int y)
 {
     for (int i = 0; i< grafo->numVertices; i++)
@@ -48,7 +50,8 @@ int buscaNodoGrafoLA(GrafoLA *grafo, int x, int y)
     }
     return -1;
 }
-//funcao que verifica se ha uma aresta entre chave1 e chave2
+
+//check if there is edge between two nodes
 int buscaArestaGrafoLA(GrafoLA *grafo, int chave1, int chave2)
 {
     if (chave1 == -1 || chave2 == -1)
@@ -62,7 +65,7 @@ int buscaArestaGrafoLA(GrafoLA *grafo, int chave1, int chave2)
     return 0;
 }
 
-// Funcao que insere uma aresta em um grafo
+// insert edge in graph
 void insereArestaGrafoLA(GrafoLA *grafo, int chave1, int chave2){
     if (!buscaArestaGrafoLA(grafo, chave1, chave2))
     {
@@ -71,7 +74,7 @@ void insereArestaGrafoLA(GrafoLA *grafo, int chave1, int chave2){
         arestaAux->prox = grafo->vertices[chave1].lista;
         grafo->vertices[chave1].lista = arestaAux;
     }
-    //Insere aresta simetrica
+    //insert symmetric edge
     if (!buscaArestaGrafoLA(grafo, chave2, chave1))
     {
         ArestaGrafo *arestaAux2 = (ArestaGrafo*)malloc(sizeof(ArestaGrafo));
@@ -81,7 +84,7 @@ void insereArestaGrafoLA(GrafoLA *grafo, int chave1, int chave2){
     }
 }
 
-//Inicializa grafo do pacman
+//Initialize pacman's graph
 void inicialize_graph (GrafoLA *grafo)
 {
     int count = 0;
@@ -96,7 +99,7 @@ void inicialize_graph (GrafoLA *grafo)
             }
         }
     }
-    //insere arestas
+    //insert edges
     for (int i = 0; i<36; i++)
     {
         for (int j=0;j<28;j++)
@@ -140,7 +143,7 @@ void inicialize_graph (GrafoLA *grafo)
         }
     }
 }
-//inicializa grafo dos fantasmas
+//initialize ghosts' map
 void inicialize_graphGhosts (GrafoLA *grafo)
 {
     int count = 0;
@@ -156,7 +159,7 @@ void inicialize_graphGhosts (GrafoLA *grafo)
         }
     }
 
-    //insere arestas
+    //insert edges
     for (int i = 0; i<36; i++)
     {
         for (int j=0;j<28;j++)
@@ -201,7 +204,7 @@ void inicialize_graphGhosts (GrafoLA *grafo)
     }
 }
 
-// Funcao auxiliar para Algs. de Caminhamento
+// Auxiliary function for search algorithm
 void inicializaCaminhamentoGrafoLA(GrafoLA *grafo){
    int chave;
    grafo->timestamp = 0;
@@ -218,7 +221,7 @@ void inicializaCaminhamentoGrafoLA(GrafoLA *grafo){
       }
 }
 
-// Alg. para Caminhamento em Amplitude
+// Breadth-first search
 void BFSGrafoLA(GrafoLA *grafo, int chaveInicial){
    inicializaCaminhamentoGrafoLA(grafo);
    FilaEnc *fila = criaFila();

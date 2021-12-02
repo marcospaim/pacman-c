@@ -2,39 +2,44 @@
 <CodeBlocks_layout_file>
 	<FileVersion major="1" minor="0" />
 	<ActiveTarget name="Debug" />
-	<File name="game.h" open="1" top="0" tabpos="6" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+	<File name="game.h" open="1" top="0" tabpos="5" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
 		<Cursor>
-			<Cursor1 position="563" topLine="0" />
+			<Cursor1 position="1237" topLine="37" />
 		</Cursor>
 	</File>
-	<File name="graph.c" open="1" top="0" tabpos="1" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+	<File name="game.c" open="1" top="0" tabpos="6" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
 		<Cursor>
-			<Cursor1 position="1240" topLine="27" />
+			<Cursor1 position="13104" topLine="311" />
 		</Cursor>
 	</File>
-	<File name="sdl2_graphics.c" open="1" top="0" tabpos="3" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+	<File name="main.c" open="1" top="0" tabpos="4" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
 		<Cursor>
-			<Cursor1 position="5561" topLine="139" />
+			<Cursor1 position="1662" topLine="51" />
 		</Cursor>
 	</File>
-	<File name="main.c" open="1" top="0" tabpos="5" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+	<File name="sdl2_graphics.h" open="1" top="0" tabpos="3" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
 		<Cursor>
-			<Cursor1 position="5805" topLine="118" />
+			<Cursor1 position="778" topLine="13" />
 		</Cursor>
 	</File>
 	<File name="graph.h" open="1" top="0" tabpos="2" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
 		<Cursor>
-			<Cursor1 position="204" topLine="0" />
+			<Cursor1 position="1246" topLine="43" />
 		</Cursor>
 	</File>
-	<File name="game.c" open="1" top="1" tabpos="7" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+	<File name="sdl2_graphics.c" open="1" top="1" tabpos="11" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
 		<Cursor>
-			<Cursor1 position="4234" topLine="69" />
+			<Cursor1 position="195" topLine="0" />
 		</Cursor>
 	</File>
-	<File name="sdl2_graphics.h" open="1" top="0" tabpos="4" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+	<File name="fila_enc.h" open="1" top="0" tabpos="7" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
 		<Cursor>
-			<Cursor1 position="181" topLine="0" />
+			<Cursor1 position="129" topLine="0" />
+		</Cursor>
+	</File>
+	<File name="graph.c" open="1" top="0" tabpos="1" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="379" topLine="224" />
 		</Cursor>
 	</File>
 </CodeBlocks_layout_file>

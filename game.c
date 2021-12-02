@@ -5,7 +5,8 @@
 #include <time.h>
 #include <stdlib.h>
 #include "pilha_enc_plus.h"
-//conta moedas em grafo
+
+//count coins in graph
 int contaMoedas(GrafoLA *grafo)
 {
     int count=0;
@@ -17,17 +18,18 @@ int contaMoedas(GrafoLA *grafo)
     return count;
 }
 
+//return random number
 int random_number(int upper)
 {
     int num = (rand() % upper );
     return num;
 }
 
+//control pacman's movement
 void movimento_pacman(GrafoLA *grafo, Pacman *pacman)
 {
     if ((int)pacman->x_pos == 0)
         {
-            printf("aqui");
             if (pacman->x_vel == SPEED
                  && buscaArestaGrafoLA(grafo, pacman->graph_pos, buscaNodoGrafoLA(grafo, (int)pacman->x_pos+1, (int)pacman->y_pos)))
                  pacman->x_pos += pacman->x_vel/FPS;
@@ -62,6 +64,7 @@ void movimento_pacman(GrafoLA *grafo, Pacman *pacman)
                     pacman->y_pos += pacman->y_vel/FPS;
 }
 
+//controls ghosts' movement
 void movimento_fantasma(GrafoLA *grafo, Ghost *fantasma)
 {
     ArestaGrafo *arestaAux;
@@ -214,6 +217,7 @@ void movimento_fantasma(GrafoLA *grafo, Ghost *fantasma)
                     fantasma->y_pos += fantasma->y_vel/FPS;
 }
 
+//move ghost to the original position taking the shortest path
 void retorno_fantasma(GrafoLA *grafo, Ghost *fantasma)
 {
     if (!fantasma->returning)
@@ -269,11 +273,7 @@ void retorno_fantasma(GrafoLA *grafo, Ghost *fantasma)
                 desempilhaPilha(fantasma->pilha);
         }
     }
-    /*if ((int)fantasma->x_pos == fantasma->x_pos_orig && (int)fantasma->y_pos == fantasma->y_pos_orig)
-    {
-        fantasma->returning = 0;
-        destroiPilha(fantasma->pilha);
-    }*/
+
     if (fantasma->graph_pos == buscaNodoGrafoLA(grafo, (int)fantasma->x_pos_orig, (int)fantasma->y_pos_orig))
     {
         fantasma->returning = 0;
@@ -316,6 +316,7 @@ void retorno_fantasma(GrafoLA *grafo, Ghost *fantasma)
                     fantasma->y_pos += fantasma->y_vel/FPS;
 }
 
+//inicialize game
 void initialize_game (Game *game, Ghost *blinky, Ghost *pinky, Ghost *inky, Ghost *clyde, Pacman *pacman)
 {
     // inicializar pacman

@@ -7,7 +7,8 @@
 #include "graph.h"
 #include "sdl2_graphics.h"
 #include "game.h"
-//0=caminho sem nada, 1=caminho com moeda, 2 = caminho com moed grande, 3 = parede, 4 = fora do mapa, 5 = porta da casa dos fantasmas
+
+//matrix to inicialize graph
 char initial_map[36][28] = {
     {4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4},//0
     {4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4},//1
@@ -46,13 +47,14 @@ char initial_map[36][28] = {
     {4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4},
     {4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4},
     };
-    // Global renderer:
+// Global renderer:
 SDL_Renderer* renderer = NULL;
 //global window
 SDL_Window* window = NULL;
 //global texture
 SDL_Texture* tex = NULL;
 
+//load texture from image
 SDL_Texture* loadTexture(char *str)
 {
     SDL_Texture* tex = NULL;
@@ -74,6 +76,7 @@ SDL_Texture* loadTexture(char *str)
     }
     return tex;
 }
+//Write text on game window
 void write(SDL_Texture* tex, char* text, int x, int y)
 {
     winRect.w = WIN_WIDTH/28;
@@ -104,6 +107,8 @@ void write(SDL_Texture* tex, char* text, int x, int y)
         i++;
     }
 }
+
+//draw sprites
 void drawSprite(SDL_Texture* tex, int num, float x, float y, Ghost *fantasma, Game *game)
 {
     int texturewidth, textureheight;
@@ -114,7 +119,7 @@ void drawSprite(SDL_Texture* tex, int num, float x, float y, Ghost *fantasma, Ga
     {
         case 0:
             return;
-        //moeda pequena
+        //small dot
         case 1:
             winRect.x = x*winRect.w;
             winRect.y = y*winRect.h;
@@ -122,7 +127,7 @@ void drawSprite(SDL_Texture* tex, int num, float x, float y, Ghost *fantasma, Ga
             spriteRect.x = 3*200+136;
             spriteRect.y = 186+19;
             break;
-        //moeda grande
+        //big dot
         case 2:
             winRect.x = x*winRect.w;
             winRect.y = y*winRect.h;
@@ -219,13 +224,13 @@ void drawSprite(SDL_Texture* tex, int num, float x, float y, Ghost *fantasma, Ga
     //SDL_RenderPresent(renderer);
 }
 
-// Desenha as moedas no mapa de acordo com o grafo
-void draw_coins(GrafoLA *grafo)
+// Draw coins on map
+void draw_coins(GrafoLA *graph)
 {
-    for (int i = 0; i< grafo->numVertices; i++)
+    for (int i = 0; i< graph->numVertices; i++)
     {
-        if(grafo->vertices[i].coin != 0)
-            drawSprite(tex, grafo->vertices[i].coin, grafo->vertices[i].x, grafo->vertices[i].y, NULL, NULL);
+        if(graph->vertices[i].coin != 0)
+            drawSprite(tex, graph->vertices[i].coin, graph->vertices[i].x, graph->vertices[i].y, NULL, NULL);
     }
 }
 // clean up resources before exiting

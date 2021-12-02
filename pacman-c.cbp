@@ -38,6 +38,10 @@
 			<Add directory="C:/mingw_dev_lib/sdl2/lib" />
 			<Add directory="C:/mingw_dev_lib/sdl2_image/lib" />
 		</Linker>
+		<Unit filename="fila_enc.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="fila_enc.h" />
 		<Unit filename="game.c">
 			<Option compilerVar="CC" />
 		</Unit>
@@ -49,6 +53,10 @@
 		<Unit filename="main.c">
 			<Option compilerVar="CC" />
 		</Unit>
+		<Unit filename="pilha_enc_plus.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="pilha_enc_plus.h" />
 		<Unit filename="sdl2_graphics.c">
 			<Option compilerVar="CC" />
 		</Unit>

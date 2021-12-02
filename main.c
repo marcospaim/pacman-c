@@ -1,3 +1,6 @@
+//Simplified Pac-Man using SDL2
+//Autor: Marcos Chaves Paim
+//
 #include <SDL.h>
 #include <stdio.h>
 #include <time.h>
@@ -7,9 +10,6 @@
 #include "graph.h"
 #include "sdl2_graphics.h"
 #include "game.h"
-
-
-
 
 int main(int argc, char* argv[])
 {
@@ -24,7 +24,7 @@ int main(int argc, char* argv[])
 
     Pacman pacman;
 
-    //inicializar ghosts
+    //inicialize ghosts
     Ghost blinky; //vermelho
 
     Ghost pinky; //Rosa
@@ -33,7 +33,7 @@ int main(int argc, char* argv[])
 
     Ghost clyde; //laranja
 
-    //inicia winRect
+    //inicialize winRect
     winRect.w = WIN_WIDTH/28;
     winRect.h = WIN_HEIGHT/36;
     winRect.x = winRect.y = 0;
@@ -62,7 +62,7 @@ int main(int argc, char* argv[])
         SDL_Quit();
         return 1;
     }
-    //Carrega textura do mapa
+    //load map texture
     SDL_Texture* tex2 = loadTexture("images/Pac-Man-mapa-244-288.png");
     if (!tex2)
     {
@@ -78,7 +78,7 @@ int main(int argc, char* argv[])
     SDL_RenderCopy(renderer, tex, NULL, NULL);
     SDL_RenderPresent(renderer);
 
-    //Carrega Sprites
+    //Load Sprites
     tex = loadTexture("images/pacman-all-sprites.png");
     if (!tex)
     {
@@ -101,13 +101,13 @@ int main(int argc, char* argv[])
     next_time = SDL_GetTicks() + TICK_INTERVAL;
     while( !quit )
     {
-        // Controla o tempo do jogo
+        // Control game time
         now = SDL_GetTicks();
         if (next_time <= now)
             SDL_Delay(0);
         else
             SDL_Delay(next_time-now);
-        //printf("%lu \n", (unsigned long)next_time-now);
+
         next_time += TICK_INTERVAL;
         //Handle events on queue
         while( SDL_PollEvent( &e ) != 0 )
@@ -184,9 +184,9 @@ int main(int argc, char* argv[])
         if (game.run)
         {
             draw_coins(grafo);
-            //Movimento do Pacman:
+            //Pacman's movement:
             movimento_pacman(grafo, &pacman);
-            //Movimento fantasmas:
+            //ghosts' movement:
             if (blinky.returning == 0)
                 movimento_fantasma(grafoGhosts, &blinky);
             else
@@ -203,7 +203,7 @@ int main(int argc, char* argv[])
                 movimento_fantasma(grafoGhosts, &clyde);
             else
                 retorno_fantasma(grafoGhosts, &clyde);
-            // Checa se pacman comeu moeda grande
+            // Check if pacman has eaten a big coin
             if (grafo->vertices[pacman.graph_pos].coin == 2)
             {
                 game.frightened = true;
@@ -211,7 +211,7 @@ int main(int argc, char* argv[])
             }
             if ((SDL_GetTicks() - game.frightened_time > 6000))
                 game.frightened = false;
-            // Checa se pacman comeu alguma moeda
+            // Check if pacman has eaten a coin
             if (grafo->vertices[pacman.graph_pos].coin == 1 || grafo->vertices[pacman.graph_pos].coin == 2)
             {
                 grafo->vertices[pacman.graph_pos].coin = 0;
@@ -228,7 +228,7 @@ int main(int argc, char* argv[])
                 if (pacman.graph_pos == clyde.graph_pos && clyde.returning == 0)
                     retorno_fantasma(grafoGhosts, &clyde);
             }
-            else //Checa se o pacman se chocou com algum fantasma
+            else //Check if pacman has encountered a ghost
             {
                 if (pacman.graph_pos == blinky.graph_pos)
                     pacman.lives--;
@@ -261,7 +261,7 @@ int main(int argc, char* argv[])
         SDL_RenderPresent(renderer);
     }
     // clean up resources before exiting
-    SDL_DestroyTexture(tex2); //destroi textura do mapa
+    SDL_DestroyTexture(tex2); //destroy map's texture
     quit_program();
 
     return 0;
