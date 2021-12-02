@@ -68,14 +68,14 @@ void movimento_pacman(GrafoLA *grafo, Pacman *pacman)
 void movimento_fantasma(GrafoLA *grafo, Ghost *fantasma)
 {
     ArestaGrafo *arestaAux;
-    ArestaGrafo arestas[4];
+    //ArestaGrafo arestas[4];
     if (fantasma->flag != fantasma->graph_pos)
         fantasma->flag = 0;
     int count = 0;
     //conta o numero de arestas
     for (arestaAux = grafo->vertices[fantasma->graph_pos].lista; arestaAux != NULL; arestaAux = arestaAux->prox)
     {
-        arestas[count] = *arestaAux;
+        //arestas[count] = *arestaAux;
         count++;
     }
     if (count == 2 && fantasma->flag == 0 && (int)fantasma->x_pos != 0 && (int)fantasma->x_pos != 27)
@@ -224,8 +224,10 @@ void retorno_fantasma(GrafoLA *grafo, Ghost *fantasma)
     {
         BFSGrafoLA(grafo, fantasma->graph_pos);
         ArestaGrafo *arestaAux;
-        int vertice = buscaNodoGrafoLA(grafo, (int)fantasma->x_pos_orig, (int)fantasma->y_pos_orig); //vertice destino
-        int d = grafo->vertices[vertice].distInicio; //distancia do nodo destino ao inicial
+
+        // find shortest path from destination node to initial node and save it in a stack
+        int vertice = buscaNodoGrafoLA(grafo, (int)fantasma->x_pos_orig, (int)fantasma->y_pos_orig); //destination node
+        int d = grafo->vertices[vertice].distInicio; //distance from destination node to initial node
         fantasma->pilha = criaPilha();
         while (d != 0)
         {
@@ -244,7 +246,7 @@ void retorno_fantasma(GrafoLA *grafo, Ghost *fantasma)
         fantasma->returning = 1;
     }
 
-    //Controla a velocidade e desempilha
+    //control speed and pop stack
     if (fantasma->pilha->topo != NULL)
     {
         if ((int)fantasma->x_pos < fantasma->pilha->topo->x)
@@ -279,7 +281,7 @@ void retorno_fantasma(GrafoLA *grafo, Ghost *fantasma)
         fantasma->returning = 0;
         destroiPilha(fantasma->pilha);
     }
-    //Movimenta o fantasma
+    //move ghost
     if ((int)fantasma->x_pos == 0)
         {
             if (fantasma->x_vel == SPEED

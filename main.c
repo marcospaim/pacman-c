@@ -161,7 +161,7 @@ int main(int argc, char* argv[])
                 pacman.y_vel = SPEED;
             }
         }
-        pacman.graph_pos = buscaNodoGrafoLA(grafo, (int)pacman.x_pos, (int)pacman.y_pos); //Atualiza qual nodo do grafo o pacman está
+        pacman.graph_pos = buscaNodoGrafoLA(grafo, (int)pacman.x_pos, (int)pacman.y_pos);
         blinky.graph_pos = buscaNodoGrafoLA(grafoGhosts, (int)blinky.x_pos, (int)blinky.y_pos);
         pinky.graph_pos = buscaNodoGrafoLA(grafoGhosts, (int)pinky.x_pos, (int)pinky.y_pos);
         inky.graph_pos = buscaNodoGrafoLA(grafoGhosts, (int)inky.x_pos, (int)inky.y_pos);
@@ -219,13 +219,13 @@ int main(int argc, char* argv[])
             }
             if (game.frightened)
             {
-                if (pacman.graph_pos == blinky.graph_pos && blinky.returning == 0)
+                if (((int)pacman.x_pos == (int)blinky.x_pos && (int)pacman.y_pos == (int)blinky.y_pos) && blinky.returning == 0)
                     retorno_fantasma(grafoGhosts, &blinky);
-                if (pacman.graph_pos == pinky.graph_pos && pinky.returning == 0)
+                if (((int)pacman.x_pos == (int)pinky.x_pos && (int)pacman.y_pos == (int)pinky.y_pos) && pinky.returning == 0)
                     retorno_fantasma(grafoGhosts, &pinky);
-                if (pacman.graph_pos == inky.graph_pos && inky.returning == 0)
+                if (((int)pacman.x_pos == (int)inky.x_pos && (int)pacman.y_pos == (int)inky.y_pos) && inky.returning == 0)
                     retorno_fantasma(grafoGhosts, &inky);
-                if (pacman.graph_pos == clyde.graph_pos && clyde.returning == 0)
+                if (((int)pacman.x_pos == (int)clyde.x_pos && (int)pacman.y_pos == (int)clyde.y_pos) && clyde.returning == 0)
                     retorno_fantasma(grafoGhosts, &clyde);
             }
             else //Check if pacman has encountered a ghost

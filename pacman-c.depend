@@ -1,5 +1,5 @@
 # depslib dependency file v1.0
-1638484866 source:c:\users\marcos\documents\github\pacman-c\main.c
+1638488249 source:c:\users\marcos\documents\github\pacman-c\main.c
 	<SDL.h>
 	<stdio.h>
 	<time.h>
@@ -426,7 +426,7 @@
 	<SDL_image.h>
 	"game.h"
 
-1637716990 source:c:\users\marcos\documents\github\pacman-c\game.c
+1638487658 source:c:\users\marcos\documents\github\pacman-c\game.c
 	<stdio.h>
 	<stdbool.h>
 	"game.h"
