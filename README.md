@@ -6,4 +6,5 @@ This is a simplified implementation of the game. The maze path is implemented us
 
 ![screeenshot](/images/screenshot.PNG)
 
+
 [SDL2]: <https://www.libsdl.org/index.php>
